@@ -73,6 +73,10 @@ function docsplorer_render_manager_cards( $term ) {
 	);
 
 	if ( $term ) {
+		// A tax_query is inherently scoped to one specific folder term
+		// here (not an open-ended query), so this stays fast even on a
+		// large document library.
+		// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 		$args['tax_query'] = array(
 			array(
 				'taxonomy'         => 'docsplorer_folder',
@@ -83,6 +87,7 @@ function docsplorer_render_manager_cards( $term ) {
 		);
 	} else {
 		// Root view: documents that have no folder assigned yet.
+		// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 		$args['tax_query'] = array(
 			array(
 				'taxonomy' => 'docsplorer_folder',
@@ -137,6 +142,9 @@ function docsplorer_render_manager_page() {
 		wp_die( esc_html__( 'You do not have permission to access this page.', 'docsplorer' ) );
 	}
 
+	// Which folder is currently open. Read-only display filtering, not
+	// a state-changing action, so nonce verification doesn't apply.
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$selected_slug = isset( $_GET['folder'] ) ? sanitize_title( wp_unslash( $_GET['folder'] ) ) : '';
 	$selected_term = $selected_slug ? get_term_by( 'slug', $selected_slug, 'docsplorer_folder' ) : false;
 	$selected_id   = $selected_term ? $selected_term->term_id : 0;
@@ -164,7 +172,10 @@ function docsplorer_render_manager_page() {
 				<ul class="docsplorer-tree" id="docsplorer-tree">
 					<li class="docsplorer-tree-item<?php echo ( 0 === $selected_id ) ? ' is-selected' : ''; ?>" data-term-id="0">
 						<a href="<?php echo esc_url( $root_url ); ?>" class="docsplorer-tree-link"><?php esc_html_e( 'All', 'docsplorer' ); ?></a>
-						<?php echo docsplorer_render_folder_tree( 0, $selected_id ); ?>
+						<?php
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each value is escaped individually inside this function before being concatenated into the returned HTML string.
+						echo docsplorer_render_folder_tree( 0, $selected_id );
+						?>
 					</li>
 				</ul>
 			</div>
@@ -174,7 +185,10 @@ function docsplorer_render_manager_page() {
 					<p><?php esc_html_e( 'Drag files here to upload', 'docsplorer' ); ?></p>
 				</div>
 				<div class="docsplorer-grid" id="docsplorer-file-grid">
-					<?php echo docsplorer_render_manager_cards( $selected_term ); ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each value is escaped individually inside this function before being concatenated into the returned HTML string.
+					echo docsplorer_render_manager_cards( $selected_term );
+					?>
 				</div>
 			</div>
 		</div>
@@ -826,6 +840,9 @@ function docsplorer_ajax_delete_folder() {
 			'post_type'      => 'docsplorer_document',
 			'posts_per_page' => 1,
 			'fields'         => 'ids',
+			// Scoped to one specific folder term, and capped at 1
+			// result -- this is a cheap existence check, not a broad query.
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			'tax_query'      => array(
 				array(
 					'taxonomy'         => 'docsplorer_folder',

@@ -67,7 +67,9 @@ Not covered yet:
 - `includes/post-type.php` and `includes/admin-manager.php` -- these lean
   heavily on things like `$_FILES`, AJAX nonces, and WordPress's media
   upload pipeline, which need a fair bit more WP_Mock setup (or a full
-  WordPress test environment) to test meaningfully.
+  WordPress test environment) to test meaningfully. This is a reasonable
+  next step once the current suite feels familiar -- ask if you'd like a
+  hand extending it in that direction.
 
 ## How this works, in a nutshell
 

@@ -21,7 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 function docsplorer_shortcode() {
 	$taxonomy = 'docsplorer_folder';
 
-	// Sanitize + validate the requested folder slug.
+	// Sanitize + validate the requested folder slug. This is read-only
+	// display filtering (which folder to show), not a state-changing
+	// action, so nonce verification doesn't apply here the way it
+	// would for a form submission.
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$requested_slug = isset( $_GET['docsplorer_folder'] ) ? sanitize_title( wp_unslash( $_GET['docsplorer_folder'] ) ) : '';
 	$current_term   = $requested_slug ? get_term_by( 'slug', $requested_slug, $taxonomy ) : false;
 
@@ -29,9 +33,14 @@ function docsplorer_shortcode() {
 	docsplorer_print_styles_once();
 	?>
 	<div class="docsplorer-browser">
-		<?php echo docsplorer_render_breadcrumb( $current_term, $taxonomy ); ?>
-		<?php echo docsplorer_render_subfolders( $current_term, $taxonomy ); ?>
-		<?php echo docsplorer_render_documents( $current_term, $taxonomy ); ?>
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each value is escaped individually inside this function before being concatenated into the returned HTML string.
+		echo docsplorer_render_breadcrumb( $current_term, $taxonomy );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each value is escaped individually inside this function before being concatenated into the returned HTML string.
+		echo docsplorer_render_subfolders( $current_term, $taxonomy );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each value is escaped individually inside this function before being concatenated into the returned HTML string.
+		echo docsplorer_render_documents( $current_term, $taxonomy );
+		?>
 	</div>
 	<?php
 	return ob_get_clean();
@@ -107,6 +116,10 @@ function docsplorer_render_documents( $current_term, $taxonomy ) {
 			'posts_per_page' => -1,
 			'orderby'        => 'title',
 			'order'          => 'ASC',
+			// A tax_query is inherently scoped to one specific folder
+			// term here (not an open-ended query), so this stays fast
+			// even on a large document library.
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			'tax_query'      => array(
 				array(
 					'taxonomy'         => $taxonomy,

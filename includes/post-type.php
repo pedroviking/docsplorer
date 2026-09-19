@@ -125,7 +125,7 @@ function docsplorer_render_file_meta_box( $post ) {
 }
 
 function docsplorer_save_file_meta( $post_id ) {
-	if ( ! isset( $_POST['docsplorer_file_nonce'] ) || ! wp_verify_nonce( $_POST['docsplorer_file_nonce'], 'docsplorer_save_file' ) ) {
+	if ( ! isset( $_POST['docsplorer_file_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['docsplorer_file_nonce'] ) ), 'docsplorer_save_file' ) ) {
 		return;
 	}
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {

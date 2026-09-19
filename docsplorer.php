@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Docsplorer
  * Description:       Nested-folder document library (e.g. Decade > Year) with drag-and-drop admin upload and a frontend breadcrumb browser shortcode [docsplorer_documents].
- * Version:           1.6.0
+ * Version:           1.6.1
  * Requires at least: 5.9
  * Requires PHP:      7.4
  * Author:            Peder Møller
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'DOCSPLORER_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DOCSPLORER_URL', plugin_dir_url( __FILE__ ) );
-define( 'DOCSPLORER_VERSION', '1.6.0' );
+define( 'DOCSPLORER_VERSION', '1.6.1' );
 
 /**
  * Module map, in load order:
