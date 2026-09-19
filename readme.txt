@@ -1,5 +1,5 @@
 === Docsplorer ===
-Contributors: (add your wordpress.org username here once you've created one)
+Contributors: pedroviking
 Tags: documents, files, folders, file manager, document library
 Requires at least: 5.9
 Tested up to: 7.1
