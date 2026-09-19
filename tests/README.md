@@ -57,10 +57,10 @@ Covered, with real unit tests:
 - `includes/helpers.php` -- the file-extension-to-badge mapping and the SVG
   icon builders.
 - `includes/shortcode.php` -- the breadcrumb, subfolder, and document
-  rendering functions, including regression tests for the two bugs we found
-  and fixed together (a folder's documents leaking into its parent folder,
-  and the "No documents in this folder" message showing even when the
-  folder had subfolders).
+  rendering functions, including regression tests for the two bugs (a 
+  folder's documents leaking into its parent folder, and the "No 
+  documents in this folder" message showing even when the folder had 
+  subfolders).
 
 Not covered yet:
 
@@ -68,9 +68,8 @@ Not covered yet:
   heavily on things like `$_FILES`, AJAX nonces, and WordPress's media
   upload pipeline, which need a fair bit more WP_Mock setup (or a full
   WordPress test environment) to test meaningfully. This is a reasonable
-  next step once the current suite feels familiar -- ask if you'd like a
-  hand extending it in that direction.
-
+  next step.
+  
 ## How this works, in a nutshell
 
 Each test:

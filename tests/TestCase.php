@@ -14,7 +14,7 @@ class Docsplorer_TestCase extends \WP_Mock\Tools\TestCase {
 
 		// The plugin checks the return value of several WordPress
 		// functions (get_terms(), get_ancestors(), wp_count_terms()...)
-		// with is_wp_error() before using it. None of our tests are
+		// with is_wp_error() before using it. None of the tests are
 		// simulating an actual WP_Error, so every test gets this same
 		// safe default -- it means individual tests don't each need to
 		// remember to stub it themselves.
