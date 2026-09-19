@@ -1,8 +1,8 @@
 === Docsplorer ===
-Contributors: pedroviking
+Contributors: (add your wordpress.org username here once you've created one)
 Tags: documents, files, folders, file manager, document library
 Requires at least: 5.9
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.6.1
 License: GPLv2 or later
