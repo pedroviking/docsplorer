@@ -1,0 +1,17 @@
+{
+    "name": "quietbear/docsplorer",
+    "description": "Dev dependencies for running Docsplorer's unit test suite.",
+    "license": "GPL-2.0-or-later",
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "10up/wp_mock": "^1.0"
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}
